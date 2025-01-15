@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: kinnema
+      POSTGRES_DB: kinnema
+      POSTGRES_PASSWORD: kinnema
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - 6379:6379
