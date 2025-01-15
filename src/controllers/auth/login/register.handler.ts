@@ -1,5 +1,5 @@
 import { prismaClient } from "@src/database/prisma";
-import { CreateUserInput } from "@src/validators/auth/register.schema";
+import { CreateUserInput } from "@src/schemas/auth/register.schema";
 import * as argon2 from "argon2";
 import { FastifyReply, FastifyRequest } from "fastify";
 

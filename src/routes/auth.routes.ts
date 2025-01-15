@@ -1,7 +1,7 @@
 import { loginHandler } from "@src/controllers/auth/login/login.handler";
 import { logoutHandler } from "@src/controllers/auth/login/logout.handler";
 import { registerHandler } from "@src/controllers/auth/login/register.handler";
-import { $authSchemas } from "@src/validators/auth";
+import { $appSchemas } from "@src/schemas";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
 export async function authRoutes(app: FastifyInstance) {
@@ -18,9 +18,9 @@ export async function authRoutes(app: FastifyInstance) {
     "/register",
     {
       schema: {
-        body: $authSchemas("registerSchema"),
+        body: $appSchemas("registerSchema"),
         response: {
-          201: $authSchemas("createUserResponseSchema"),
+          201: $appSchemas("createUserResponseSchema"),
         },
       },
     },
@@ -31,10 +31,10 @@ export async function authRoutes(app: FastifyInstance) {
       {
         schema: {
           body: {
-            $ref: $authSchemas("loginSchema").$ref,
+            $ref: $appSchemas("loginSchema").$ref,
           },
           response: {
-            200: $authSchemas("loginSchemaOutput"),
+            200: $appSchemas("loginSchemaOutput"),
           },
         },
       },

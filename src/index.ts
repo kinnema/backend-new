@@ -2,10 +2,11 @@ import fCookie from "@fastify/cookie";
 import fjwt from "@fastify/jwt";
 import "dotenv/config";
 import fastify, { FastifyReply, FastifyRequest } from "fastify";
-import { authRoutes } from "./routes/auth.routes";
-import { registerAuthSchemas } from "./validators/auth";
+import { registerRoutes } from "./routes";
+import { registerSchemas } from "./schemas";
+import { UserSchema } from "./schemas/user.schema";
 
-export const app = fastify();
+const app = fastify();
 
 app.register(fjwt, {
   secret: process.env.JWT_SECRET || "some-secret-key",
@@ -31,12 +32,12 @@ app.decorate(
     }
 
     const decoded = request.jwt.verify(token);
-    request.user = decoded;
+    request.user = decoded as UserSchema;
   }
 );
 
-registerAuthSchemas();
-app.register(authRoutes, { prefix: "/api/auth" });
+registerSchemas(app);
+registerRoutes(app);
 
 const start = async () => {
   try {

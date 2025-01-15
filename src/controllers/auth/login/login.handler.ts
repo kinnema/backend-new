@@ -1,5 +1,5 @@
 import { prismaClient } from "@src/database/prisma";
-import { LoginUserInput } from "@src/validators/auth/login.schema";
+import { LoginUserInput } from "@src/schemas/auth/login.schema";
 import * as argon2 from "argon2";
 import { FastifyReply, FastifyRequest } from "fastify";
 

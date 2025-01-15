@@ -14,11 +14,23 @@ datasource db {
 }
 
 model User {
-  id           Int     @id @default(autoincrement())
+  id           String        @id @default(uuid())
   username     String
-  email        String  @unique
+  email        String        @unique
   refreshToken String?
   password     String
+  LastWatched  LastWatched[]
 
   @@index([email])
+}
+
+model LastWatched {
+  id        String   @id @default(uuid())
+  season    Int
+  episode   Int
+  isWatched Boolean? @default(false)
+  tmdbId    String
+  userId    String
+  user      User     @relation(onDelete: Cascade, references: [id], fields: [userId])
+  atSecond  Int
 }
