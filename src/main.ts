@@ -1,23 +1,17 @@
-import fCookie from "@fastify/cookie";
-import fjwt from "@fastify/jwt";
 import "dotenv/config";
 import fastify, { FastifyReply, FastifyRequest } from "fastify";
-import { registerRoutes } from "./routes";
+import path from "path";
+import { initDevModules, initModules } from "./core/main/init_modules";
 import { registerSchemas } from "./schemas";
 import { UserSchema } from "./schemas/user.schema";
 
-const app = fastify();
+export const BASE_PATH = path.join(__dirname);
 
-app.register(fjwt, {
-  secret: process.env.JWT_SECRET || "some-secret-key",
-});
-app.register(fCookie, {
-  secret: process.env.COOKIE_SECRET || "some-secret-key",
-  hook: "preHandler",
+const app = fastify({
+  logger: true,
 });
 
 app.addHook("preHandler", (req, _res, next) => {
-  // here we are
   req.jwt = app.jwt;
   return next();
 });
@@ -36,11 +30,17 @@ app.decorate(
   }
 );
 
+initModules(app);
+initDevModules(app);
 registerSchemas(app);
-registerRoutes(app);
+
+app.get("/openapi.json", async () => {
+  return app.swagger();
+});
 
 const start = async () => {
   try {
+    await app.ready();
     await app.listen({
       port: 8000,
     });

@@ -2,7 +2,7 @@ import { lastWatchedRootHandler } from "@src/controllers/last_watched/last_watch
 import { $appSchemas } from "@src/schemas";
 import { FastifyInstance } from "fastify";
 
-export default function lastWatchedRoutes(app: FastifyInstance) {
+export default function (app: FastifyInstance) {
   app.get(
     "/",
     {
@@ -38,3 +38,5 @@ export default function lastWatchedRoutes(app: FastifyInstance) {
     lastWatchedRootHandler
   );
 }
+
+export const autoPrefix = "/api/last_watched";

@@ -4,7 +4,7 @@ import { registerHandler } from "@src/controllers/auth/login/register.handler";
 import { $appSchemas } from "@src/schemas";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
-export async function authRoutes(app: FastifyInstance) {
+export default async function (app: FastifyInstance, _opts: any) {
   app.get(
     "/",
     {
@@ -43,3 +43,5 @@ export async function authRoutes(app: FastifyInstance) {
   app.delete("/logout", logoutHandler);
   app.log.info("user routes registered");
 }
+
+export const autoPrefix = "/api/auth";
