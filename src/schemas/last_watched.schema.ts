@@ -5,7 +5,7 @@ export const lastWatchedSchemaOutput = z.object({
   id: z.string().uuid(),
   season: z.number(),
   episode: z.number(),
-  isWatched: z.boolean().nullable(),
+  isWatched: z.boolean(),
   tmdbId: z.string(),
   userId: z.string(),
   user: userSchema,
@@ -25,7 +25,7 @@ export const lastWatchedCreateSchemaOutput = z.object({
 export const lastWatchedCreateSchemaInput = z.object({
   season: z.number(),
   episode: z.number(),
-  isWatched: z.boolean().nullable(),
+  isWatched: z.boolean(),
   tmdbId: z.string(),
   userId: z.string(),
   atSecond: z.number(),

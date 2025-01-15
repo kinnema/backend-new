@@ -11,6 +11,18 @@ export async function lastWatchedCreateHandler(
   }>
 ): Promise<LastWatchedCreateOutput> {
   try {
+    const isExists = await prismaClient.lastWatched.findFirst({
+      where: {
+        tmdbId: req.body.tmdbId,
+        episode: req.body.episode,
+        season: req.body.season,
+      },
+    });
+
+    if (isExists) {
+      return isExists;
+    }
+
     const lastWatched = await prismaClient.lastWatched.create({
       data: {
         ...req.body,

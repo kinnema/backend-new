@@ -49,12 +49,9 @@ export default function (app: FastifyInstance) {
     "/",
     {
       schema: {
-        body: $appSchemas("lastWatchedCreateSchemaOutput"),
+        body: $appSchemas("lastWatchedCreateSchemaInput"),
         response: {
-          200: {
-            type: "object",
-            $ref: $appSchemas("lastWatchedCreateSchemaInput").$ref,
-          },
+          200: $appSchemas("lastWatchedCreateSchemaOutput"),
         },
       },
       preHandler: [app.authenticate],
