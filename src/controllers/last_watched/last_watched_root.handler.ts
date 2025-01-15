@@ -7,7 +7,9 @@ export async function lastWatchedRootHandler(req: FastifyRequest) {
       userId: req.user.id,
       isWatched: false,
     },
-    distinct: "tmdbId",
+    include: {
+      user: true,
+    },
   });
 
   return lastWatched;

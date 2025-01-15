@@ -1,3 +1,6 @@
+import { lastWatchedCreateHandler } from "@src/controllers/last_watched/last_watched_create.handler";
+import lastWatchedGetHandler from "@src/controllers/last_watched/last_watched_get.handler";
+import lastWatchedPatchHandler from "@src/controllers/last_watched/last_watched_patch.handler";
 import { lastWatchedRootHandler } from "@src/controllers/last_watched/last_watched_root.handler";
 import { $appSchemas } from "@src/schemas";
 import { FastifyInstance } from "fastify";
@@ -20,22 +23,69 @@ export default function (app: FastifyInstance) {
     lastWatchedRootHandler
   );
 
-  app.put(
+  app.get(
+    "/:id",
+    {
+      schema: {
+        params: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              description: "last watched id",
+            },
+          },
+        },
+        response: {
+          200: $appSchemas("lastWatchedSchemaOutput"),
+        },
+      },
+      preHandler: [app.authenticate],
+    },
+    lastWatchedGetHandler
+  );
+
+  app.post(
     "/",
     {
       schema: {
-        body: $appSchemas("lastWatchedSchemaInput"),
+        body: $appSchemas("lastWatchedCreateSchemaOutput"),
         response: {
           200: {
-            type: "array",
-            items: { $ref: $appSchemas("lastWatchedSchemaOutput").$ref },
-            default: [],
+            type: "object",
+            $ref: $appSchemas("lastWatchedCreateSchemaInput").$ref,
           },
         },
       },
       preHandler: [app.authenticate],
     },
-    lastWatchedRootHandler
+    lastWatchedCreateHandler
+  );
+
+  app.patch(
+    "/:id",
+    {
+      schema: {
+        params: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              description: "last watched id",
+            },
+          },
+        },
+        body: $appSchemas("lastWatchedPatchSchemaInput"),
+        response: {
+          200: {
+            type: "object",
+            $ref: $appSchemas("lastWatchedPatchSchemaOutput").$ref,
+          },
+        },
+      },
+      preHandler: [app.authenticate],
+    },
+    lastWatchedPatchHandler
   );
 }
 

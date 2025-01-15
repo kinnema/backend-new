@@ -6,7 +6,10 @@ import {
   registerSchema,
 } from "./auth/register.schema";
 import {
-  lastWatchedSchemaInput,
+  lastWatchedCreateSchemaInput,
+  lastWatchedCreateSchemaOutput,
+  lastWatchedPatchSchemaInput,
+  lastWatchedPatchSchemaOutput,
   lastWatchedSchemaOutput,
 } from "./last_watched.schema";
 
@@ -16,7 +19,10 @@ export const { schemas, $ref: $appSchemas } = buildJsonSchemas({
   registerSchema,
   createUserResponseSchema,
   loginSchemaOutput,
-  lastWatchedSchemaInput,
+  lastWatchedCreateSchemaOutput,
+  lastWatchedCreateSchemaInput,
+  lastWatchedPatchSchemaInput,
+  lastWatchedPatchSchemaOutput,
 });
 
 export function registerSchemas(app: FastifyInstance) {
