@@ -1,0 +1,17 @@
+services:
+  web:
+    build: .
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: kinnema
+      POSTGRES_DB: kinnema
+      POSTGRES_PASSWORD: kinnema
+    ports:
+      - 5432:5432
