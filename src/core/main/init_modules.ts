@@ -14,7 +14,7 @@ export async function initModules(app: FastifyInstance) {
     hook: "preHandler",
   });
   await app.register(fastifyAutoload, {
-    dir: path.join(BASE_PATH, "routes"),
+    dir: path.join(BASE_PATH, "features"),
     matchFilter: (filePath) =>
       filePath.endsWith(".route.js") || filePath.endsWith(".route.ts"),
     prefix: "/api",
@@ -22,6 +22,8 @@ export async function initModules(app: FastifyInstance) {
 }
 
 export async function initDevModules(app: FastifyInstance) {
+  if (process.env.NODE_ENV !== "development") return;
+
   const swaggerUiModule = await import("@fastify/swagger-ui");
   const swaggerModule = await import("@fastify/swagger");
 

@@ -1,7 +1,11 @@
 import { loginHandler } from "@src/controllers/auth/login/login.handler";
 import { logoutHandler } from "@src/controllers/auth/login/logout.handler";
 import { registerHandler } from "@src/controllers/auth/login/register.handler";
-import { $appSchemas } from "@src/schemas";
+import {
+  LoginUserInputType,
+  LoginUserOutputType,
+} from "@src/features/auth/schemas/auth/login.schema";
+import { CreateUserInputType } from "@src/features/auth/schemas/auth/register.schema";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
 export default async function (app: FastifyInstance, _opts: any) {
@@ -18,9 +22,9 @@ export default async function (app: FastifyInstance, _opts: any) {
     "/register",
     {
       schema: {
-        body: $appSchemas("registerSchema"),
+        body: CreateUserInputType,
         response: {
-          201: $appSchemas("createUserResponseSchema"),
+          204: {},
         },
       },
     },
@@ -30,11 +34,9 @@ export default async function (app: FastifyInstance, _opts: any) {
       "/login",
       {
         schema: {
-          body: {
-            $ref: $appSchemas("loginSchema").$ref,
-          },
+          body: LoginUserInputType,
           response: {
-            200: $appSchemas("loginSchemaOutput"),
+            200: LoginUserOutputType,
           },
         },
       },

@@ -1,10 +1,25 @@
-FROM node:22-alpine AS builder
+#Build stage
+FROM node:22-alpine AS build
 
-COPY . /app
-RUN bun install
-RUN bun run build
+WORKDIR /app
 
-FROM node:22-alpine AS serve
+COPY package*.json .
 
-COPY --from=builder /app/build /var/www/kinnema
-CMD [ "node", "/var/www/kinnema/main.js" ]
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+#Production stage
+FROM node:22-alpine AS production
+
+WORKDIR /app
+
+COPY package*.json .
+
+RUN npm ci --only=production
+
+COPY --from=build /app/build ./dist
+
+CMD ["node", "dist/index.js"]

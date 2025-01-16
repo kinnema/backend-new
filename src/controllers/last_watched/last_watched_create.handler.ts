@@ -2,7 +2,7 @@ import { prismaClient } from "@src/database/prisma";
 import {
   LastWatchedCreateInput,
   LastWatchedCreateOutput,
-} from "@src/schemas/last_watched.schema";
+} from "@src/features/last_watched/schemas/last_watched.schema";
 import { FastifyRequest } from "fastify";
 
 export async function lastWatchedCreateHandler(

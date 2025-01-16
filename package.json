@@ -5,18 +5,19 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./src/main.ts",
     "build": "tsc ",
-    "start": "node ./build/main.js",
-    "postinstall": "bunx prisma generate"
+    "start": "node ./build/main.js"
   },
   "dependencies": {
     "@fastify/autoload": "^6.0.3",
     "@fastify/cookie": "^11.0.2",
     "@fastify/jwt": "^9.0.3",
+    "@fastify/type-provider-typebox": "^5.1.0",
     "@prisma/client": "6.2.1",
+    "@sinclair/typebox": "^0.34.14",
     "argon2": "^0.41.1",
     "dotenv": "^16.4.7",
     "fastify": "^5.2.1",
-    "fastify-zod": "^1.4.0",
+    "tsconfig-paths": "^4.2.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {
@@ -26,7 +27,6 @@
     "nodemon": "^3.1.9",
     "prisma": "^6.2.1",
     "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3"
   }
 }

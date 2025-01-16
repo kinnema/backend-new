@@ -1,15 +1,15 @@
+import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
+import { User } from "@prisma/client";
 import "dotenv/config";
 import fastify, { FastifyReply, FastifyRequest } from "fastify";
 import path from "path";
 import { initDevModules, initModules } from "./core/main/init_modules";
-import { registerSchemas } from "./schemas";
-import { UserSchema } from "./schemas/user.schema";
 
 export const BASE_PATH = path.join(__dirname);
 
 const app = fastify({
   logger: true,
-});
+}).withTypeProvider<TypeBoxTypeProvider>();
 
 app.addHook("preHandler", (req, _res, next) => {
   req.jwt = app.jwt;
@@ -26,13 +26,12 @@ app.decorate(
     }
 
     const decoded = request.jwt.verify(token);
-    request.user = decoded as UserSchema;
+    request.user = decoded as User;
   }
 );
 
 initModules(app);
 initDevModules(app);
-registerSchemas(app);
 
 app.get("/openapi.json", async () => {
   return app.swagger();

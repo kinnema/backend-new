@@ -1,5 +1,4 @@
 import { JWT } from "@fastify/jwt";
-import { UserSchema } from "./schemas/user.schema";
 
 declare module "fastify" {
   interface FastifyRequest {

@@ -1,9 +1,16 @@
+import { Type } from "@sinclair/typebox";
 import { lastWatchedCreateHandler } from "@src/controllers/last_watched/last_watched_create.handler";
 import lastWatchedGetHandler from "@src/controllers/last_watched/last_watched_get.handler";
 import lastWatchedPatchHandler from "@src/controllers/last_watched/last_watched_patch.handler";
 import { lastWatchedRootHandler } from "@src/controllers/last_watched/last_watched_root.handler";
-import { $appSchemas } from "@src/schemas";
 import { FastifyInstance } from "fastify";
+import {
+  lastWatchedCreateSchemaInputType,
+  lastWatchedCreateSchemaOutputType,
+  lastWatchedPatchSchemaInputType,
+  lastWatchedPatchSchemaOutputType,
+  lastWatchedSchemaOutputType,
+} from "../schemas/last_watched.schema";
 
 export default function (app: FastifyInstance) {
   app.get(
@@ -13,7 +20,7 @@ export default function (app: FastifyInstance) {
         response: {
           200: {
             type: "array",
-            items: { $ref: $appSchemas("lastWatchedSchemaOutput").$ref },
+            items: lastWatchedSchemaOutputType,
             default: [],
           },
         },
@@ -37,7 +44,7 @@ export default function (app: FastifyInstance) {
           },
         },
         response: {
-          200: $appSchemas("lastWatchedSchemaOutput"),
+          200: lastWatchedSchemaOutputType,
         },
       },
       preHandler: [app.authenticate],
@@ -49,9 +56,9 @@ export default function (app: FastifyInstance) {
     "/",
     {
       schema: {
-        body: $appSchemas("lastWatchedCreateSchemaInput"),
+        body: lastWatchedCreateSchemaInputType,
         response: {
-          200: $appSchemas("lastWatchedCreateSchemaOutput"),
+          200: lastWatchedCreateSchemaOutputType,
         },
       },
       preHandler: [app.authenticate],
@@ -63,21 +70,12 @@ export default function (app: FastifyInstance) {
     "/:id",
     {
       schema: {
-        params: {
-          type: "object",
-          properties: {
-            id: {
-              type: "string",
-              description: "last watched id",
-            },
-          },
-        },
-        body: $appSchemas("lastWatchedPatchSchemaInput"),
+        params: Type.Object({
+          id: Type.Number(),
+        }),
+        body: lastWatchedPatchSchemaInputType,
         response: {
-          200: {
-            type: "object",
-            $ref: $appSchemas("lastWatchedPatchSchemaOutput").$ref,
-          },
+          200: lastWatchedPatchSchemaOutputType,
         },
       },
       preHandler: [app.authenticate],

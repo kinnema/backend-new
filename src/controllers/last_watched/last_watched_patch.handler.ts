@@ -2,7 +2,7 @@ import { prismaClient } from "@src/database/prisma";
 import {
   LastWatchedPatchInput,
   LastWatchedPatchOutput,
-} from "@src/schemas/last_watched.schema";
+} from "@src/features/last_watched/schemas/last_watched.schema";
 import { FastifyRequest } from "fastify";
 
 export default async function lastWatchedPatchHandler(
@@ -14,7 +14,11 @@ export default async function lastWatchedPatchHandler(
       userId: req.user.id,
     },
     data: {
-      ...req.body,
+      atSecond: req.body.atSecond,
+      episode: req.body.episode,
+      season: req.body.season,
+      isWatched: req.body.isWatched,
+      tmdbId: req.body.tmdbId,
     },
   });
 
