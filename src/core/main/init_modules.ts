@@ -15,9 +15,11 @@ export async function initModules(app: FastifyInstance) {
   });
   await app.register(fastifyAutoload, {
     dir: path.join(BASE_PATH, "features"),
-    matchFilter: (filePath) =>
-      filePath.endsWith(".route.js") || filePath.endsWith(".route.ts"),
     prefix: "/api",
+    encapsulate: true,
+    matchFilter(path) {
+      return path.endsWith(".feature.ts") || path.endsWith(".feature.js");
+    },
   });
 }
 

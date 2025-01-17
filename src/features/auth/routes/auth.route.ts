@@ -8,7 +8,7 @@ import {
 import { CreateUserInputType } from "@src/features/auth/schemas/auth/register.schema";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
-export default async function (app: FastifyInstance, _opts: any) {
+export default async function initializeAuthRoutes(app: FastifyInstance) {
   app.get(
     "/",
     {
@@ -43,7 +43,4 @@ export default async function (app: FastifyInstance, _opts: any) {
       loginHandler
     );
   app.delete("/logout", logoutHandler);
-  app.log.info("user routes registered");
 }
-
-export const autoPrefix = "/api/auth";

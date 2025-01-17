@@ -1,4 +1,3 @@
-import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { User } from "@prisma/client";
 import "dotenv/config";
 import fastify, { FastifyReply, FastifyRequest } from "fastify";
@@ -9,7 +8,7 @@ export const BASE_PATH = path.join(__dirname);
 
 const app = fastify({
   logger: true,
-}).withTypeProvider<TypeBoxTypeProvider>();
+});
 
 app.addHook("preHandler", (req, _res, next) => {
   req.jwt = app.jwt;
@@ -43,10 +42,10 @@ const start = async () => {
     await app.listen({
       port: 8000,
     });
-    console.log("Server running at http://localhost:8000/");
+    app.swagger();
+    app.log.info("Server running at http://localhost:8000/");
   } catch (err) {
     app.log.error(err);
-    console.error(err);
     process.exit(1);
   }
 };

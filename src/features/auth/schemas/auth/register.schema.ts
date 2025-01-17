@@ -1,9 +1,13 @@
-import { Static, Type } from "@sinclair/typebox";
+import S from "fluent-json-schema";
 
-export const CreateUserInputType = Type.Object({
-  email: Type.String({ format: "email" }),
-  password: Type.String({ minLength: 5 }),
-  username: Type.String({ minLength: 5 }),
-});
+export const CreateUserInputType = S.object()
+  .prop("email", S.string().format("email").required())
+  .prop("password", S.string().minLength(5).required())
+  .prop("username", S.string().minLength(5).required());
 
-export type CreateUserInput = Static<typeof CreateUserInputType>;
+// Define the TypeScript type manually since `fluent-json-schema` does not generate types
+export type CreateUserInput = {
+  email: string;
+  password: string;
+  username: string;
+};

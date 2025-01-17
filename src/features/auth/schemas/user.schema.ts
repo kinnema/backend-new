@@ -1,11 +1,14 @@
-import { Static, Type } from "@sinclair/typebox";
+import S from "fluent-json-schema";
 
-export const UserSchema = Type.Object({
-  id: Type.String({ format: "uuid" }),
-  username: Type.String(),
-  email: Type.String({
-    format: "email",
-  }),
-});
+export const UserSchema = S.object()
+  .prop("id", S.string().format("uuid").required())
+  .prop("username", S.string().required())
+  .prop("email", S.string().format("email").required());
 
-export type TUserSchema = Static<typeof UserSchema>;
+interface _UserSchema {
+  id: string;
+  username: string;
+  email: string;
+}
+
+export type TUserSchema = _UserSchema;

@@ -2,33 +2,32 @@ import { Type } from "@sinclair/typebox";
 import { lastWatchedCreateHandler } from "@src/controllers/last_watched/last_watched_create.handler";
 import lastWatchedGetHandler from "@src/controllers/last_watched/last_watched_get.handler";
 import lastWatchedPatchHandler from "@src/controllers/last_watched/last_watched_patch.handler";
-import { lastWatchedRootHandler } from "@src/controllers/last_watched/last_watched_root.handler";
 import { FastifyInstance } from "fastify";
+import S from "fluent-json-schema";
 import {
   lastWatchedCreateSchemaInputType,
   lastWatchedCreateSchemaOutputType,
   lastWatchedPatchSchemaInputType,
   lastWatchedPatchSchemaOutputType,
-  lastWatchedSchemaOutputType,
 } from "../schemas/last_watched.schema";
 
-export default function (app: FastifyInstance) {
-  app.get(
-    "/",
-    {
-      schema: {
-        response: {
-          200: {
-            type: "array",
-            items: lastWatchedSchemaOutputType,
-            default: [],
-          },
-        },
-      },
-      preHandler: [app.authenticate],
-    },
-    lastWatchedRootHandler
-  );
+export default function initializeLastWatchesRoutes(app: FastifyInstance) {
+  // app.get(
+  //   "/",
+  //   {
+  //     schema: {
+  //       response: {
+  //         200: {
+  //           type: "array",
+  //           items: lastWatchedSchemaOutputType,
+  //           default: [],
+  //         },
+  //       },
+  //     },
+  //     preHandler: [app.authenticate],
+  //   },
+  //   lastWatchedRootHandler
+  // );
 
   app.get(
     "/:id",
@@ -44,7 +43,9 @@ export default function (app: FastifyInstance) {
           },
         },
         response: {
-          200: lastWatchedSchemaOutputType,
+          200: S.object().ref(
+            "https://kinnema.hasanisabbah.xyz/last_watched#/definitions/lastWatchedSchemaOutputType"
+          ),
         },
       },
       preHandler: [app.authenticate],
@@ -83,5 +84,3 @@ export default function (app: FastifyInstance) {
     lastWatchedPatchHandler
   );
 }
-
-export const autoPrefix = "/api/last_watched";

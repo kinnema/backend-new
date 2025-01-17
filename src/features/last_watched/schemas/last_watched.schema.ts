@@ -1,65 +1,100 @@
-import { Static, Type } from "@sinclair/typebox";
-import { Nullable, UndefinedOr } from "@src/types";
+import S from "fluent-json-schema";
 import { UserSchema } from "../../auth/schemas/user.schema";
 
-export const lastWatchedSchemaOutputType = Type.Object({
-  id: Type.String({ format: "uuid" }),
-  season: Type.Number(),
-  episode: Type.Number(),
-  isWatched: Nullable(Type.Boolean()),
-  tmdbId: Type.String(),
-  userId: Type.String({ format: "uuid" }),
-  user: UserSchema,
-  atSecond: Type.Number(),
-});
+const Nullable = (
+  schema: ReturnType<typeof S.string | typeof S.boolean | typeof S.number>
+) => schema.raw({ nullable: true });
 
-export const lastWatchedCreateSchemaOutputType = Type.Object({
-  id: Type.String({ format: "uuid" }),
-  season: Type.Number(),
-  episode: Type.Number(),
-  isWatched: Nullable(Type.Boolean()),
-  tmdbId: Type.String(),
-  userId: Type.String({ format: "uuid" }),
-  atSecond: Type.Number(),
-});
+const UndefinedOr = (
+  schema: ReturnType<typeof S.string | typeof S.boolean | typeof S.number>
+) => schema.raw({ nullable: true, required: false });
 
-export const lastWatchedCreateSchemaInputType = Type.Object({
-  season: Type.Number(),
-  episode: Type.Number(),
-  isWatched: Nullable(Type.Boolean()),
-  tmdbId: Type.String(),
-  userId: Type.String({ format: "uuid" }),
-  atSecond: Type.Number(),
-});
+export const lastWatchedSchemaOutputType = S.object()
+  .id("#lastWatchedSchemaOutputType")
+  .prop("id", S.string().format("uuid").required())
+  .prop("season", S.number().required())
+  .prop("episode", S.number().required())
+  .prop("isWatched", Nullable(S.boolean()))
+  .prop("tmdbId", S.string().required())
+  .prop("userId", S.string().format("uuid").required())
+  .prop("user", UserSchema)
+  .prop("atSecond", S.number().required());
 
-export const lastWatchedPatchSchemaOutputType = Type.Object({
-  id: Type.String({ format: "uuid" }),
-  season: Type.Number(),
-  episode: Type.Number(),
-  isWatched: Nullable(Type.Boolean()),
-  tmdbId: Type.String(),
-  userId: Type.String({ format: "uuid" }),
-  atSecond: Type.Number(),
-});
+export const lastWatchedCreateSchemaOutputType = S.object()
+  .id("#lastWatchedCreateSchemaOutputType")
 
-export const lastWatchedPatchSchemaInputType = Type.Object({
-  season: UndefinedOr(Type.Number()),
-  episode: UndefinedOr(Type.Number()),
-  isWatched: UndefinedOr(Type.Boolean()),
-  tmdbId: UndefinedOr(Type.String()),
-  userId: UndefinedOr(Type.String({ format: "uuid" })),
-  atSecond: UndefinedOr(Type.Number()),
-});
+  .prop("id", S.string().format("uuid").required())
+  .prop("season", S.number().required())
+  .prop("episode", S.number().required())
+  .prop("isWatched", Nullable(S.boolean()))
+  .prop("tmdbId", S.string().required())
+  .prop("userId", S.string().format("uuid").required())
+  .prop("atSecond", S.number().required());
 
-export type LastWatchedCreateInput = Static<
-  typeof lastWatchedCreateSchemaInputType
->;
-export type LastWatchedCreateOutput = Static<
-  typeof lastWatchedCreateSchemaOutputType
->;
-export type LastWatchedPatchInput = Static<
-  typeof lastWatchedPatchSchemaInputType
->;
-export type LastWatchedPatchOutput = Static<
-  typeof lastWatchedPatchSchemaOutputType
->;
+export const lastWatchedCreateSchemaInputType = S.object()
+  .id("#lastWatchedCreateSchemaInputType")
+  .prop("season", S.number().required())
+  .prop("episode", S.number().required())
+  .prop("isWatched", Nullable(S.boolean()))
+  .prop("tmdbId", S.string().required())
+  .prop("userId", S.string().format("uuid").required())
+  .prop("atSecond", S.number().required());
+
+export const lastWatchedPatchSchemaOutputType = S.object()
+  .id("#lastWatchedPatchSchemaOutputType")
+  .prop("id", S.string().format("uuid").required())
+  .prop("season", S.number().required())
+  .prop("episode", S.number().required())
+  .prop("isWatched", Nullable(S.boolean()))
+  .prop("tmdbId", S.string().required())
+  .prop("userId", S.string().format("uuid").required())
+  .prop("atSecond", S.number().required());
+
+export const lastWatchedPatchSchemaInputType = S.object()
+  .id("#lastWatchedPatchSchemaInputType")
+
+  .prop("season", UndefinedOr(S.number()))
+  .prop("episode", UndefinedOr(S.number()))
+  .prop("isWatched", UndefinedOr(S.boolean()))
+  .prop("tmdbId", UndefinedOr(S.string()))
+  .prop("userId", UndefinedOr(S.string().format("uuid")))
+  .prop("atSecond", UndefinedOr(S.number()));
+
+// Define TypeScript types manually
+export type LastWatchedCreateInput = {
+  season: number;
+  episode: number;
+  isWatched: boolean | null;
+  tmdbId: string;
+  userId: string;
+  atSecond: number;
+};
+
+export type LastWatchedCreateOutput = {
+  id: string;
+  season: number;
+  episode: number;
+  isWatched: boolean | null;
+  tmdbId: string;
+  userId: string;
+  atSecond: number;
+};
+
+export type LastWatchedPatchInput = {
+  season?: number;
+  episode?: number;
+  isWatched?: boolean | null;
+  tmdbId?: string;
+  userId?: string;
+  atSecond?: number;
+};
+
+export type LastWatchedPatchOutput = {
+  id: string;
+  season: number;
+  episode: number;
+  isWatched: boolean | null;
+  tmdbId: string;
+  userId: string;
+  atSecond: number;
+};

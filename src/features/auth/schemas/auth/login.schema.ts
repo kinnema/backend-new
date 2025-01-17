@@ -1,13 +1,15 @@
-import { Static, Type } from "@sinclair/typebox";
-import { UserSchema } from "../user.schema";
+import S from "fluent-json-schema";
+import { UserSchema } from "../user.schema"; // Assuming UserSchema is already defined
 
-export const LoginUserInputType = Type.Object({
-  email: Type.String({ format: "email" }),
-  password: Type.String(),
-});
+export const LoginUserInputType = S.object()
+  .prop("email", S.string().format("email").required())
+  .prop("password", S.string().required());
+
 export const LoginUserOutputType = UserSchema;
 
-// export const loginSchemaOutput = userSchema;
+export type LoginUserInput = {
+  email: string;
+  password: string;
+};
 
-export type LoginUserInput = Static<typeof LoginUserInputType>;
-export type LoginUserOutput = Static<typeof LoginUserOutputType>;
+export type LoginUserOutput = typeof UserSchema;
