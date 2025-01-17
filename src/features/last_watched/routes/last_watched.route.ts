@@ -1,4 +1,3 @@
-import { Type } from "@sinclair/typebox";
 import { lastWatchedCreateHandler } from "@src/controllers/last_watched/last_watched_create.handler";
 import lastWatchedGetHandler from "@src/controllers/last_watched/last_watched_get.handler";
 import lastWatchedPatchHandler from "@src/controllers/last_watched/last_watched_patch.handler";
@@ -68,9 +67,7 @@ export default function initializeLastWatchesRoutes(app: FastifyInstance) {
     "/:id",
     {
       schema: {
-        params: Type.Object({
-          id: Type.Number(),
-        }),
+        params: S.object().prop("id", S.string().format("uuid")),
         body: lastWatchedPatchSchemaInputType,
         response: {
           200: lastWatchedPatchSchemaOutputType,

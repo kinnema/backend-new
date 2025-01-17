@@ -32,8 +32,10 @@ app.decorate(
 initModules(app);
 initDevModules(app);
 
-app.get("/openapi.json", async () => {
-  return app.swagger();
+app.get("/openapi.yaml", async () => {
+  return app.swagger({
+    yaml: true,
+  });
 });
 
 const start = async () => {

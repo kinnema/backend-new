@@ -18,7 +18,6 @@ export default async function lastWatchedPatchHandler(
       episode: req.body.episode,
       season: req.body.season,
       isWatched: req.body.isWatched,
-      tmdbId: req.body.tmdbId,
     },
   });
 
