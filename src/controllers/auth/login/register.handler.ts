@@ -29,6 +29,7 @@ export async function registerHandler(
         username,
       },
     });
+
     return reply.code(201).send(user);
   } catch (e) {
     return reply.code(500).send(e);

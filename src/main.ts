@@ -32,7 +32,7 @@ app.decorate(
 initModules(app);
 initDevModules(app);
 
-app.get("/openapi.json", async () => {
+app.get("/openapi.yaml", async () => {
   return app.swagger({
     yaml: true,
   });

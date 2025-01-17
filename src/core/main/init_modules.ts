@@ -1,11 +1,16 @@
 import fastifyAutoload from "@fastify/autoload";
 import fCookie from "@fastify/cookie";
+import cors from "@fastify/cors";
 import fjwt from "@fastify/jwt";
 import { FastifyInstance } from "fastify";
 import path from "path";
 import { BASE_PATH } from "../../main";
 
 export async function initModules(app: FastifyInstance) {
+  await app.register(cors, {
+    origin: true,
+    credentials: true,
+  });
   await app.register(fjwt, {
     secret: process.env.JWT_SECRET || "some-secret-key",
   });

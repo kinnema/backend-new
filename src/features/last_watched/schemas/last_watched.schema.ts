@@ -1,3 +1,4 @@
+import { LastWatched } from "@prisma/client";
 import S from "fluent-json-schema";
 import { UserSchema } from "../../auth/schemas/user.schema";
 
@@ -12,6 +13,8 @@ const UndefinedOr = (
 export const lastWatchedSchemaOutputType = S.object()
   .id("#lastWatchedSchemaOutputType")
   .prop("id", S.string().format("uuid").required())
+  .prop("name", S.string().required())
+  .prop("poster_path", S.string().required())
   .prop("season", S.number().required())
   .prop("episode", S.number().required())
   .prop("isWatched", Nullable(S.boolean()))
@@ -22,12 +25,13 @@ export const lastWatchedSchemaOutputType = S.object()
 
 export const lastWatchedCreateSchemaOutputType = S.object()
   .id("#lastWatchedCreateSchemaOutputType")
-
   .prop("id", S.string().format("uuid").required())
   .prop("season", S.number().required())
   .prop("episode", S.number().required())
   .prop("isWatched", Nullable(S.boolean()))
   .prop("tmdbId", S.string().required())
+  .prop("name", S.string().required())
+  .prop("poster_path", S.string().required())
   .prop("userId", S.string().format("uuid").required())
   .prop("atSecond", S.number().required());
 
@@ -36,8 +40,6 @@ export const lastWatchedCreateSchemaInputType = S.object()
   .prop("season", S.number().required())
   .prop("episode", S.number().required())
   .prop("isWatched", Nullable(S.boolean()))
-  .prop("tmdbId", S.string().required())
-  .prop("userId", S.string().format("uuid").required())
   .prop("atSecond", S.number().required());
 
 export const lastWatchedPatchSchemaOutputType = S.object()
@@ -46,55 +48,31 @@ export const lastWatchedPatchSchemaOutputType = S.object()
   .prop("season", S.number().required())
   .prop("episode", S.number().required())
   .prop("isWatched", Nullable(S.boolean()))
+  .prop("name", S.string().required())
+  .prop("poster_path", S.string().required())
   .prop("tmdbId", S.string().required())
   .prop("userId", S.string().format("uuid").required())
   .prop("atSecond", S.number().required());
 
 export const lastWatchedPatchSchemaInputType = S.object()
   .id("#lastWatchedPatchSchemaInputType")
-
   .prop("season", UndefinedOr(S.number()))
   .prop("episode", UndefinedOr(S.number()))
   .prop("isWatched", UndefinedOr(S.boolean()))
   .prop("tmdbId", UndefinedOr(S.string()))
+  .prop("name", UndefinedOr(S.string().required()))
+  .prop("poster_path", UndefinedOr(S.string().required()))
   .prop("userId", UndefinedOr(S.string().format("uuid")))
   .prop("atSecond", UndefinedOr(S.number()));
 
 // Define TypeScript types manually
-export type LastWatchedCreateInput = {
-  season: number;
-  episode: number;
-  isWatched: boolean | null;
-  tmdbId: string;
-  userId: string;
-  atSecond: number;
-};
+export type LastWatchedCreateInput = Omit<LastWatched, "id" | "user">;
 
-export type LastWatchedCreateOutput = {
-  id: string;
-  season: number;
-  episode: number;
-  isWatched: boolean | null;
-  tmdbId: string;
-  userId: string;
-  atSecond: number;
-};
+export type LastWatchedCreateOutput = Omit<LastWatched, "user">;
 
-export type LastWatchedPatchInput = {
-  season?: number;
-  episode?: number;
-  isWatched?: boolean | null;
-  tmdbId?: string;
-  userId?: string;
-  atSecond?: number;
-};
+export type LastWatchedPatchInput = Pick<
+  LastWatched,
+  "season" | "episode" | "atSecond" | "isWatched"
+>;
 
-export type LastWatchedPatchOutput = {
-  id: string;
-  season: number;
-  episode: number;
-  isWatched: boolean | null;
-  tmdbId: string;
-  userId: string;
-  atSecond: number;
-};
+export type LastWatchedPatchOutput = Omit<LastWatched, "user">;
