@@ -1,6 +1,5 @@
-import { User } from "@prisma/client";
 import "dotenv/config";
-import fastify, { FastifyReply, FastifyRequest } from "fastify";
+import fastify from "fastify";
 import path from "path";
 import { initDevModules, initModules } from "./core/main/init_modules";
 
@@ -10,33 +9,8 @@ const app = fastify({
   logger: true,
 });
 
-app.addHook("preHandler", (req, _res, next) => {
-  req.jwt = app.jwt;
-  return next();
-});
-
-app.decorate(
-  "authenticate",
-  async (request: FastifyRequest, reply: FastifyReply) => {
-    const token = request.cookies.access_token;
-
-    if (!token) {
-      return reply.status(401).send({ message: "Authentication required" });
-    }
-
-    const decoded = request.jwt.verify(token);
-    request.user = decoded as User;
-  }
-);
-
 initModules(app);
 initDevModules(app);
-
-app.get("/openapi.yaml", async () => {
-  return app.swagger({
-    yaml: true,
-  });
-});
 
 const start = async () => {
   try {
