@@ -13,7 +13,6 @@ import {
 } from "../schemas/last_watched.schema";
 
 export default function initializeLastWatchesRoutes(app: FastifyInstance) {
-  console.log(app.getSchemas());
   app.get(
     "/",
     {

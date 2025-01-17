@@ -31,7 +31,7 @@ model LastWatched {
   season      Int
   episode     Int
   isWatched   Boolean? @default(false)
-  tmdbId      String
+  tmdbId      Int
   userId      String
   user        User     @relation(onDelete: Cascade, references: [id], fields: [userId])
   atSecond    Int

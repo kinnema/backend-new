@@ -10,36 +10,35 @@ const UndefinedOr = (
   schema: ReturnType<typeof S.string | typeof S.boolean | typeof S.number>
 ) => schema.raw({ nullable: true, required: false });
 
-export const lastWatchedSchemaOutputType = S.object()
-  .id("#lastWatchedSchemaOutputType")
-  .title("lastWatchedSchemaOutputType")
+const lastWatchedBaseSchema = S.object()
+  .id("#lastWatchedBaseSchema")
+  .title("lastWatchedBaseSchema")
   .prop("id", S.string().format("uuid").required())
   .prop("name", S.string().required())
   .prop("poster_path", S.string().required())
   .prop("season", S.number().required())
   .prop("episode", S.number().required())
   .prop("isWatched", Nullable(S.boolean()))
-  .prop("tmdbId", S.string().required())
-  .prop("userId", S.string().format("uuid").required())
+  .prop("tmdbId", S.number().required())
+  .prop("userId", S.string().format("uuid").required());
+
+export const lastWatchedSchemaOutputType = S.object()
+  .id("#lastWatchedSchemaOutputType")
+  .title("lastWatchedSchemaOutputType")
   .prop("user", UserSchema)
-  .prop("atSecond", S.number().required());
+  .extend(lastWatchedBaseSchema);
 
 export const lastWatchedCreateSchemaOutputType = S.object()
   .id("#lastWatchedCreateSchemaOutputType")
   .title("lastWatchedCreateSchemaOutputType")
-  .prop("id", S.string().format("uuid").required())
-  .prop("season", S.number().required())
-  .prop("episode", S.number().required())
-  .prop("isWatched", Nullable(S.boolean()))
-  .prop("tmdbId", S.string().required())
-  .prop("name", S.string().required())
-  .prop("poster_path", S.string().required())
-  .prop("userId", S.string().format("uuid").required())
-  .prop("atSecond", S.number().required());
+  .extend(lastWatchedBaseSchema);
 
 export const lastWatchedCreateSchemaInputType = S.object()
   .id("#lastWatchedCreateSchemaInputType")
   .title("lastWatchedCreateSchemaInputType")
+  .prop("tmdbId", S.number().required())
+  .prop("name", S.string().required())
+  .prop("poster_path", S.string().required())
   .prop("season", S.number().required())
   .prop("episode", S.number().required())
   .prop("isWatched", Nullable(S.boolean()))
@@ -48,15 +47,7 @@ export const lastWatchedCreateSchemaInputType = S.object()
 export const lastWatchedPatchSchemaOutputType = S.object()
   .id("#lastWatchedPatchSchemaOutputType")
   .title("lastWatchedPatchSchemaOutputType")
-  .prop("id", S.string().format("uuid").required())
-  .prop("season", S.number().required())
-  .prop("episode", S.number().required())
-  .prop("isWatched", Nullable(S.boolean()))
-  .prop("name", S.string().required())
-  .prop("poster_path", S.string().required())
-  .prop("tmdbId", S.string().required())
-  .prop("userId", S.string().format("uuid").required())
-  .prop("atSecond", S.number().required());
+  .extend(lastWatchedBaseSchema);
 
 export const lastWatchedPatchSchemaInputType = S.object()
   .id("#lastWatchedPatchSchemaInputType")
@@ -64,7 +55,7 @@ export const lastWatchedPatchSchemaInputType = S.object()
   .prop("season", UndefinedOr(S.number()))
   .prop("episode", UndefinedOr(S.number()))
   .prop("isWatched", UndefinedOr(S.boolean()))
-  .prop("tmdbId", UndefinedOr(S.string()))
+  .prop("tmdbId", UndefinedOr(S.number()))
   .prop("name", UndefinedOr(S.string().required()))
   .prop("poster_path", UndefinedOr(S.string().required()))
   .prop("userId", UndefinedOr(S.string().format("uuid")))
