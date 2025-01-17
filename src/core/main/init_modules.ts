@@ -26,7 +26,7 @@ export async function initModules(app: FastifyInstance) {
 export async function initDevModules(app: FastifyInstance) {
   if (process.env.NODE_ENV !== "development") return;
 
-  const swaggerUiModule = await import("@fastify/swagger-ui");
+  const scalarModule = await import("@scalar/fastify-api-reference");
   const swaggerModule = await import("@fastify/swagger");
 
   await app.register(swaggerModule.default, {
@@ -38,17 +38,29 @@ export async function initDevModules(app: FastifyInstance) {
     },
   });
 
-  await app.register(swaggerUiModule.default, {
-    routePrefix: "/docs",
-    uiConfig: {
-      docExpansion: "full",
-      deepLinking: false,
+  await app.register(scalarModule.default, {
+    routePrefix: "/reference",
+    hooks: {
+      onRequest: function (_request, _reply, done) {
+        done();
+      },
+      preHandler: function (_request, _reply, done) {
+        done();
+      },
     },
-    staticCSP: true,
-    transformStaticCSP: (header) => header,
-    transformSpecification: (swaggerObject, _request, _reply) => {
-      return swaggerObject;
-    },
-    transformSpecificationClone: true,
   });
+
+  // await app.register(swaggerUiModule.default, {
+  //   routePrefix: "/docs",
+  //   uiConfig: {
+  //     docExpansion: "full",
+  //     deepLinking: false,
+  //   },
+  //   staticCSP: true,
+  //   transformStaticCSP: (header) => header,
+  //   transformSpecification: (swaggerObject, _request, _reply) => {
+  //     return swaggerObject;
+  //   },
+  //   transformSpecificationClone: true,
+  // });
 }

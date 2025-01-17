@@ -10,7 +10,7 @@ import {
 
 export function addLastWatchedSchemas(app: FastifyInstance) {
   const commonSchemas = S.object()
-    .id("https://kinnema.hasanisabbah.xyz/last_watched")
+    .id(`${process.env.SCHEMA_REF_URL}/last_watched`)
     .definition("lastWatchedSchemaOutputType", lastWatchedSchemaOutputType)
     .definition(
       "lastWatchedCreateSchemaOutputType",
@@ -30,7 +30,5 @@ export function addLastWatchedSchemas(app: FastifyInstance) {
     );
 
   app.addSchema(commonSchemas);
-  // app.addSchema(lastWatchedSchemaOutputType);
-
   app.log.info("Initialized last watched schemas");
 }

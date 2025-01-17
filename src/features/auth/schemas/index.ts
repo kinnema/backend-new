@@ -6,7 +6,7 @@ import { UserSchema } from "./user.schema";
 
 export function addAuthSchemas(app: FastifyInstance) {
   const commonSchemas = S.object()
-    .id(process.env.SCHEMA_REF_URL!)
+    .id(`${process.env.SCHEMA_REF_URL}/auth`)
     .definition("UserSchema", UserSchema)
     .definition("LoginUserInputType", LoginUserInputType)
     .definition("LoginUserOutputType", LoginUserOutputType)

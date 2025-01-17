@@ -2,6 +2,7 @@ import { Type } from "@sinclair/typebox";
 import { lastWatchedCreateHandler } from "@src/controllers/last_watched/last_watched_create.handler";
 import lastWatchedGetHandler from "@src/controllers/last_watched/last_watched_get.handler";
 import lastWatchedPatchHandler from "@src/controllers/last_watched/last_watched_patch.handler";
+import { lastWatchedRootHandler } from "@src/controllers/last_watched/last_watched_root.handler";
 import { FastifyInstance } from "fastify";
 import S from "fluent-json-schema";
 import {
@@ -9,25 +10,23 @@ import {
   lastWatchedCreateSchemaOutputType,
   lastWatchedPatchSchemaInputType,
   lastWatchedPatchSchemaOutputType,
+  lastWatchedSchemaOutputType,
 } from "../schemas/last_watched.schema";
 
 export default function initializeLastWatchesRoutes(app: FastifyInstance) {
-  // app.get(
-  //   "/",
-  //   {
-  //     schema: {
-  //       response: {
-  //         200: {
-  //           type: "array",
-  //           items: lastWatchedSchemaOutputType,
-  //           default: [],
-  //         },
-  //       },
-  //     },
-  //     preHandler: [app.authenticate],
-  //   },
-  //   lastWatchedRootHandler
-  // );
+  console.log(app.getSchemas());
+  app.get(
+    "/",
+    {
+      schema: {
+        response: {
+          200: S.array().items(lastWatchedSchemaOutputType),
+        },
+      },
+      preHandler: [app.authenticate],
+    },
+    lastWatchedRootHandler
+  );
 
   app.get(
     "/:id",
@@ -43,9 +42,7 @@ export default function initializeLastWatchesRoutes(app: FastifyInstance) {
           },
         },
         response: {
-          200: S.object().ref(
-            "https://kinnema.hasanisabbah.xyz/last_watched#/definitions/lastWatchedSchemaOutputType"
-          ),
+          200: lastWatchedSchemaOutputType,
         },
       },
       preHandler: [app.authenticate],

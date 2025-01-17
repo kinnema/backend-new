@@ -8,7 +8,7 @@ import {
 import { CreateUserInputType } from "@src/features/auth/schemas/auth/register.schema";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
-export default async function initializeAuthRoutes(app: FastifyInstance) {
+export default function initializeAuthRoutes(app: FastifyInstance) {
   app.get(
     "/",
     {
@@ -23,9 +23,6 @@ export default async function initializeAuthRoutes(app: FastifyInstance) {
     {
       schema: {
         body: CreateUserInputType,
-        response: {
-          204: {},
-        },
       },
     },
     registerHandler

@@ -11,7 +11,6 @@
     "@fastify/autoload": "^6.0.3",
     "@fastify/cookie": "^11.0.2",
     "@fastify/jwt": "^9.0.3",
-    "@fastify/type-provider-typebox": "^5.1.0",
     "@prisma/client": "6.2.1",
     "@sinclair/typebox": "^0.34.14",
     "argon2": "^0.41.1",
@@ -23,11 +22,11 @@
   },
   "devDependencies": {
     "@fastify/swagger": "^9.4.1",
-    "@fastify/swagger-ui": "^5.2.1",
     "@types/node": "^22.10.6",
     "nodemon": "^3.1.9",
     "prisma": "^6.2.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "@scalar/fastify-api-reference": "^1.25.104"
   }
 }
