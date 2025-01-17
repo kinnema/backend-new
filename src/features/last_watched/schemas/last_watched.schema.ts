@@ -11,6 +11,7 @@ const UndefinedOr = (
 
 export const lastWatchedSchemaOutputType = S.object()
   .id("#lastWatchedSchemaOutputType")
+  .title("lastWatchedSchemaOutputType")
   .prop("id", S.string().format("uuid").required())
   .prop("season", S.number().required())
   .prop("episode", S.number().required())
@@ -22,7 +23,7 @@ export const lastWatchedSchemaOutputType = S.object()
 
 export const lastWatchedCreateSchemaOutputType = S.object()
   .id("#lastWatchedCreateSchemaOutputType")
-
+  .title("lastWatchedCreateSchemaOutputType")
   .prop("id", S.string().format("uuid").required())
   .prop("season", S.number().required())
   .prop("episode", S.number().required())
@@ -33,6 +34,7 @@ export const lastWatchedCreateSchemaOutputType = S.object()
 
 export const lastWatchedCreateSchemaInputType = S.object()
   .id("#lastWatchedCreateSchemaInputType")
+  .title("lastWatchedCreateSchemaInputType")
   .prop("season", S.number().required())
   .prop("episode", S.number().required())
   .prop("isWatched", Nullable(S.boolean()))
@@ -42,6 +44,7 @@ export const lastWatchedCreateSchemaInputType = S.object()
 
 export const lastWatchedPatchSchemaOutputType = S.object()
   .id("#lastWatchedPatchSchemaOutputType")
+  .title("lastWatchedPatchSchemaOutputType")
   .prop("id", S.string().format("uuid").required())
   .prop("season", S.number().required())
   .prop("episode", S.number().required())
@@ -52,7 +55,7 @@ export const lastWatchedPatchSchemaOutputType = S.object()
 
 export const lastWatchedPatchSchemaInputType = S.object()
   .id("#lastWatchedPatchSchemaInputType")
-
+  .title("lastWatchedPatchSchemaInputType")
   .prop("season", UndefinedOr(S.number()))
   .prop("episode", UndefinedOr(S.number()))
   .prop("isWatched", UndefinedOr(S.boolean()))
