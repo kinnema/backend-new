@@ -2,6 +2,8 @@ import "dotenv/config";
 import fastify from "fastify";
 import path from "path";
 import { initDevModules, initModules } from "./core/main/init_modules";
+import DizipalProvider from "./providers/dizipal";
+import { providerRegistry } from "./providers/provider.registry";
 
 export const BASE_PATH = path.join(__dirname);
 
@@ -11,6 +13,8 @@ const app = fastify({
 
 initModules(app);
 initDevModules(app);
+
+providerRegistry.registerProvider(new DizipalProvider());
 
 const start = async () => {
   try {
