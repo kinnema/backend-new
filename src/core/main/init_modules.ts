@@ -1,4 +1,5 @@
 import fastifyAutoload from "@fastify/autoload";
+import scalarPlugin from "@src/plugins/scalar.plugin";
 import { FastifyInstance } from "fastify";
 import path from "path";
 import { BASE_PATH } from "../../main";
@@ -12,6 +13,7 @@ export async function initModules(app: FastifyInstance) {
   await app.register(jwtPlugin);
   await app.register(cookiePlugin);
   await app.register(authenticatePlugin);
+  await app.register(scalarPlugin);
 
   await app.register(fastifyAutoload, {
     dir: path.join(BASE_PATH, "features"),
