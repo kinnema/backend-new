@@ -39,7 +39,7 @@ export default async function initializeWatchRoutes(app: FastifyInstance) {
       reply.raw.writeHead(200, {
         "Content-Type": "application/x-ndjson",
         "Transfer-Encoding": "chunked",
-        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Origin": process.env.FRONTEND_URL,
         "Access-Control-Allow-Credentials": "true",
       });
 
