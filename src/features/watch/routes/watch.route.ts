@@ -31,7 +31,7 @@ export default async function initializeWatchRoutes(app: FastifyInstance) {
       },
     },
     async (
-      _req: FastifyRequest<{ Params: IWatchGetParams }>,
+      _req: FastifyRequest<{ Querystring: IWatchGetParams }>,
       reply: FastifyReply
     ) => {
       const providers = providerRegistry.getSortedProviders();
@@ -45,7 +45,7 @@ export default async function initializeWatchRoutes(app: FastifyInstance) {
 
       for (const provider of providers) {
         try {
-          const url = await provider.fetch(_req.params);
+          const url = await provider.fetch(_req.query);
           if (url) {
             reply.raw.write(JSON.stringify(url) + "\r\n");
             // break;
