@@ -31,6 +31,7 @@ export async function loginHandler(
     maxAge: 1000 * 60 * 60 * 24 * 7, // for a week
     httpOnly: true,
     secure: true,
+    sameSite: "none",
   });
 
   return user;
