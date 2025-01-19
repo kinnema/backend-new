@@ -1,3 +1,4 @@
+import { IWatchGetParams } from "@src/features/watch/watch.schema";
 import * as cheerio from "cheerio";
 import fetch from "node-fetch";
 import { BaseProvider, IFetchResult, ProviderPriority } from "./base.provider";
@@ -12,7 +13,7 @@ export default class DizipalProvider extends BaseProvider {
     );
   }
 
-  async fetch(): Promise<IFetchResult> {
+  async fetch(params: IWatchGetParams): Promise<IFetchResult> {
     try {
       const headersObject = {
         "Accept-Language": "tr,en;q=0.9,en-GB;q=0.8,en-US;q=0.7",
@@ -25,7 +26,7 @@ export default class DizipalProvider extends BaseProvider {
         Referer: "https://dizipal870.com",
       };
 
-      const url = `${this.providerUrl}/dizi/gassal/sezon-1/bolum-1`;
+      const url = `${this.providerUrl}/dizi/${params.serie_name}/sezon-${params.season_number}/bolum-${params.episode_number}`;
 
       const response = await fetch(url, {
         headers: headersObject,
