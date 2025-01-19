@@ -1,12 +1,9 @@
+import fastifySwagger from "@fastify/swagger";
+import scalar from "@scalar/fastify-api-reference";
 import fp from "fastify-plugin";
 
 export default fp(async function (fastify) {
-  if (process.env.NODE_ENV !== "development") return;
-
-  const scalarModule = await import("@scalar/fastify-api-reference");
-  const swaggerModule = await import("@fastify/swagger");
-
-  await fastify.register(swaggerModule.default, {
+  await fastify.register(fastifySwagger, {
     openapi: {
       info: {
         title: "Kinnema",
@@ -15,7 +12,7 @@ export default fp(async function (fastify) {
     },
   });
 
-  await fastify.register(scalarModule.default, {
+  await fastify.register(scalar, {
     routePrefix: "/reference",
     hooks: {
       onRequest: function (_request, _reply, done) {

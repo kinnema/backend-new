@@ -1,7 +1,7 @@
 import "dotenv/config";
 import fastify from "fastify";
 import path from "path";
-import { initDevModules, initModules } from "./core/main/init_modules";
+import { initModules } from "./core/main/init_modules";
 import DizipalProvider from "./providers/dizipal";
 import { providerRegistry } from "./providers/provider.registry";
 
@@ -12,7 +12,6 @@ const app = fastify({
 });
 
 initModules(app);
-initDevModules(app);
 
 providerRegistry.registerProvider(new DizipalProvider());
 

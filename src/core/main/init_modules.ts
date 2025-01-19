@@ -5,7 +5,6 @@ import { BASE_PATH } from "../../main";
 import authenticatePlugin from "../../plugins/authenticate.plugin";
 import cookiePlugin from "../../plugins/cookie.plugin";
 import corsPlugin from "../../plugins/cors.plugin";
-import devPlugin from "../../plugins/dev.plugin";
 import jwtPlugin from "../../plugins/jwt.plugin";
 
 export async function initModules(app: FastifyInstance) {
@@ -22,8 +21,4 @@ export async function initModules(app: FastifyInstance) {
       return path.endsWith(".feature.ts") || path.endsWith(".feature.js");
     },
   });
-}
-
-export async function initDevModules(app: FastifyInstance) {
-  await app.register(devPlugin);
 }
