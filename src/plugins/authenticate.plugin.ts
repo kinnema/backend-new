@@ -6,13 +6,13 @@ export default fp(async function (fastify) {
   fastify.decorate(
     "authenticate",
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const token = request.cookies.access_token;
+      const token = request.headers.authorization;
 
       if (!token) {
         return reply.status(401).send({ message: "Authentication required" });
       }
 
-      const decoded = request.jwt.verify(token);
+      const decoded = request.jwt.verify(token.split(" ")[1]);
       request.user = decoded as User;
     }
   );
