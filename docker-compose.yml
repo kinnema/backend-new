@@ -3,10 +3,18 @@ services:
     build: .
     depends_on:
       - postgres
+      - web-migration
     env_file:
       - .env
     ports:
       - 8123:8000
+  web-migration:
+    build: .
+    command: npx prisma migrate deploy
+    depends_on:
+      - postgres
+    env_file:
+      - .env
 
   postgres:
     image: postgres
