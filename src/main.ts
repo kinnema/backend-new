@@ -20,6 +20,7 @@ const start = async () => {
   try {
     await app.ready();
     await app.listen({
+      host: "0.0.0.0",
       port: 8000,
     });
     app.log.info("Server running at http://localhost:8000/");

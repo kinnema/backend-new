@@ -2,7 +2,6 @@ services:
   kinnema-web:
     build: .
     depends_on:
-      - postgres
       - web-migration
     env_file:
       - .env
