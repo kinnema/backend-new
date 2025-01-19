@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 import fetch from "node-fetch";
-import { BaseProvider, ProviderPriority } from "./base.provider";
+import { BaseProvider, IFetchResult, ProviderPriority } from "./base.provider";
 
 export default class DizipalProvider extends BaseProvider {
   constructor() {
@@ -12,7 +12,7 @@ export default class DizipalProvider extends BaseProvider {
     );
   }
 
-  async fetch(): Promise<string> {
+  async fetch(): Promise<IFetchResult> {
     try {
       const headersObject = {
         "Accept-Language": "tr,en;q=0.9,en-GB;q=0.8,en-US;q=0.7",
@@ -44,7 +44,10 @@ export default class DizipalProvider extends BaseProvider {
         const text = await videoResponse.text();
         const fileMatch = text.match(/file:"([^"]+)/);
         if (fileMatch && fileMatch[1]) {
-          return fileMatch[1];
+          return {
+            provider: this.name,
+            url: fileMatch[1],
+          };
         }
       }
       throw new Error("Video not found");

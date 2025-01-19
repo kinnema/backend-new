@@ -22,7 +22,6 @@ const start = async () => {
     await app.listen({
       port: 8000,
     });
-    app.swagger();
     app.log.info("Server running at http://localhost:8000/");
   } catch (err) {
     app.log.error(err);

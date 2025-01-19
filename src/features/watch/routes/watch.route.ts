@@ -1,13 +1,33 @@
 import { providerRegistry } from "@src/providers/provider.registry";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { IWatchGetParams, WatchGetParamsSchema } from "../watch.schema";
+import {
+  IWatchGetParams,
+  WatchProvidersSchema,
+  WatchQueryParamsSchema,
+} from "../watch.schema";
 
 export default async function initializeWatchRoutes(app: FastifyInstance) {
   app.get(
-    "/:serie_name/:season_number/:episode_number",
+    "/providers",
     {
       schema: {
-        params: WatchGetParamsSchema,
+        response: {
+          200: WatchProvidersSchema,
+        },
+      },
+    },
+    async () => {
+      return {
+        providers: providerRegistry.getSortedProviders(),
+      };
+    }
+  );
+
+  app.get(
+    "/",
+    {
+      schema: {
+        querystring: WatchQueryParamsSchema,
       },
     },
     async (
@@ -19,23 +39,21 @@ export default async function initializeWatchRoutes(app: FastifyInstance) {
       reply.raw.writeHead(200, {
         "Content-Type": "application/x-ndjson",
         "Transfer-Encoding": "chunked",
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Credentials": "true",
       });
 
-      const fetchPromises = providers.map(async (provider) => {
+      for (const provider of providers) {
         try {
           const url = await provider.fetch(_req.params);
           if (url) {
-            // Stream each result as it arrives
-            reply.raw.write(
-              JSON.stringify({ provider: provider.name, url }) + "\r\n"
-            );
+            reply.raw.write(JSON.stringify(url) + "\r\n");
+            // break;
           }
         } catch (error) {
           console.error(`Error fetching from ${provider.name}:`, error);
         }
-      });
-
-      await Promise.all(fetchPromises);
+      }
 
       // End the response stream
       reply.raw.end();

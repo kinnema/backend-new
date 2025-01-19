@@ -6,6 +6,12 @@ export enum ProviderPriority {
   HIGH = 2,
 }
 
+export interface IFetchResult {
+  provider: string;
+  url?: string;
+  error?: string;
+}
+
 export interface IProvider {
   name: string;
   priority: ProviderPriority;
@@ -13,7 +19,7 @@ export interface IProvider {
   providerUrl: string;
 
   // Method to fetch data - generic type T for flexibility
-  fetch(params: IWatchGetParams): Promise<string>;
+  fetch(params: IWatchGetParams): Promise<IFetchResult>;
 }
 
 // Abstract class that implements the interface
@@ -25,5 +31,5 @@ export abstract class BaseProvider implements IProvider {
     public readonly providerUrl: string
   ) {}
 
-  abstract fetch(params: IWatchGetParams): Promise<string>;
+  abstract fetch(params: IWatchGetParams): Promise<IFetchResult>;
 }
