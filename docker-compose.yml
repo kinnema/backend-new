@@ -1,5 +1,5 @@
 services:
-  web:
+  kinnema-web:
     build: .
     depends_on:
       - postgres
