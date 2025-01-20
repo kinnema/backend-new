@@ -20,6 +20,7 @@ model User {
   refreshToken String?
   password     String
   LastWatched  LastWatched[]
+  favorites    Favorite[]
 
   @@index([email])
 }
@@ -35,4 +36,17 @@ model LastWatched {
   userId      String
   user        User     @relation(onDelete: Cascade, references: [id], fields: [userId])
   atSecond    Int
+}
+
+model Favorite {
+  id          String   @id @default(uuid())
+  name        String
+  poster_path String
+  tmdbId      Int
+  userId      String
+  user        User     @relation(onDelete: Cascade, references: [id], fields: [userId])
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, tmdbId])
+  @@index([userId])
 }
