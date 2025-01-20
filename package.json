@@ -12,7 +12,9 @@
     "@fastify/cookie": "^11.0.2",
     "@fastify/cors": "^10.0.2",
     "@fastify/jwt": "^9.0.3",
+    "@fastify/swagger": "^9.4.1",
     "@prisma/client": "6.2.1",
+    "@scalar/fastify-api-reference": "^1.25.104",
     "@sinclair/typebox": "^0.34.14",
     "argon2": "^0.41.1",
     "cheerio": "^1.0.0",
@@ -22,11 +24,10 @@
     "fluent-json-schema": "^5.0.0",
     "node-fetch": "^2.7.0",
     "tsconfig-paths": "^4.2.0",
-    "zod": "^3.24.1",
-    "@fastify/swagger": "^9.4.1",
-    "@scalar/fastify-api-reference": "^1.25.104"
+    "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.2",
     "@types/node": "^22.10.6",
     "@types/node-fetch": "^2.6.12",
     "nodemon": "^3.1.9",
