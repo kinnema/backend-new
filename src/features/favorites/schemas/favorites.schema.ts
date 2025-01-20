@@ -2,12 +2,12 @@ import { FastifyInstance } from "fastify";
 import S from "fluent-json-schema";
 
 export const favoriteSchemaOutputType = S.object()
-  .prop("id", S.string().format("uuid"))
-  .prop("name", S.string())
-  .prop("poster_path", S.string())
-  .prop("tmdbId", S.number())
-  .prop("userId", S.string())
-  .prop("createdAt", S.string().format("date-time"));
+  .prop("id", S.string().format("uuid").required())
+  .prop("name", S.string().required())
+  .prop("poster_path", S.string().required())
+  .prop("tmdbId", S.number().required())
+  .prop("userId", S.string().required())
+  .prop("createdAt", S.string().format("date-time").required());
 
 export type FavoriteOutput = {
   id: string;
