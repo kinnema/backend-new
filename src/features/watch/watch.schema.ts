@@ -7,7 +7,6 @@ export const WatchProvidersSchema = S.object().prop(
       .prop("name", S.string())
       .prop("priority", S.number())
       .prop("isEnabled", S.boolean())
-      .prop("providerUrl", S.string())
   )
 );
 

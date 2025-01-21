@@ -1,7 +1,7 @@
 import { prismaClient } from "@src/database/prisma";
 import {
-    FavoriteCreateInput,
-    FavoriteOutput,
+  FavoriteCreateInput,
+  FavoriteOutput,
 } from "@src/features/favorites/schemas/favorites.schema";
 import { FastifyRequest } from "fastify";
 
@@ -20,7 +20,7 @@ export async function favoritesCreateHandler(
 
     return { ...favorite, createdAt: favorite.createdAt.toISOString() };
   } catch (error) {
-    req.log.fatal(error);
-    throw new Error("Could not create favorite");
+    req.log.error(error);
+    throw new Error("Could not create favorite " + error);
   }
-} 
+}

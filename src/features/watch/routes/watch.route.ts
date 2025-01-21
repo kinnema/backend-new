@@ -1,3 +1,4 @@
+import { cache } from "@src/core/cache";
 import { providerRegistry } from "@src/providers/provider.registry";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import {
@@ -45,7 +46,7 @@ export default async function initializeWatchRoutes(app: FastifyInstance) {
 
       for (const provider of providers) {
         try {
-          const url = await provider.fetch(_req.query, app);
+          const url = await provider.fetch(_req.query, app, cache);
           if (url) {
             reply.raw.write(JSON.stringify(url) + "\r\n");
             break;

@@ -1,3 +1,4 @@
+import { Cache } from "@src/core/cache";
 import { IWatchGetParams } from "@src/features/watch/watch.schema";
 import * as cheerio from "cheerio";
 import { FastifyInstance } from "fastify";
@@ -15,9 +16,16 @@ export default class DizipalBrowserProvider extends BaseProvider {
 
   async fetch(
     params: IWatchGetParams,
-    app: FastifyInstance
+    app: FastifyInstance,
+    cache: Cache
   ): Promise<IFetchResult> {
     try {
+      const cachedUrl = await this.fetchFromCache(params, cache);
+
+      if (cachedUrl.url) {
+        return cachedUrl;
+      }
+
       const url = `${this.providerUrl}/dizi/${params.serie_name}/sezon-${params.season_number}/bolum-${params.episode_number}`;
 
       const response = await fetch(process.env.PROXY_URL!, {
@@ -50,6 +58,7 @@ export default class DizipalBrowserProvider extends BaseProvider {
         const text = await videoResponse.text();
         const fileMatch = text.match(/file:"([^"]+)/);
         if (fileMatch && fileMatch[1]) {
+          cache.set<string>(this.generateCacheKey(params), fileMatch[1]);
           return {
             provider: this.name,
             url: fileMatch[1],

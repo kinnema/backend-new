@@ -27,18 +27,10 @@ export default function initializeLastWatchesRoutes(app: FastifyInstance) {
   );
 
   app.get(
-    "/:id",
+    "/:tmdbId",
     {
       schema: {
-        params: {
-          type: "object",
-          properties: {
-            id: {
-              type: "string",
-              description: "last watched id",
-            },
-          },
-        },
+        params: S.object().prop("tmdbId", S.number().required()),
         response: {
           200: lastWatchedSchemaOutputType,
         },

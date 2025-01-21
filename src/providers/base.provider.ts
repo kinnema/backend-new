@@ -1,3 +1,4 @@
+import { Cache } from "@src/core/cache";
 import { IWatchGetParams } from "@src/features/watch/watch.schema";
 import { FastifyInstance } from "fastify";
 
@@ -20,7 +21,11 @@ export interface IProvider {
   providerUrl: string;
 
   // Method to fetch data - generic type T for flexibility
-  fetch(params: IWatchGetParams, app: FastifyInstance): Promise<IFetchResult>;
+  fetch(
+    params: IWatchGetParams,
+    app: FastifyInstance,
+    cache: Cache
+  ): Promise<IFetchResult>;
 }
 
 // Abstract class that implements the interface
@@ -34,6 +39,22 @@ export abstract class BaseProvider implements IProvider {
 
   abstract fetch(
     params: IWatchGetParams,
-    app: FastifyInstance
+    app: FastifyInstance,
+    cache: Cache
   ): Promise<IFetchResult>;
+
+  protected generateCacheKey(params: IWatchGetParams): string {
+    return `${this.name}-${params.serie_name}-${params.season_number}-${params.episode_number}`;
+  }
+
+  protected async fetchFromCache(
+    params: IWatchGetParams,
+    cache: Cache
+  ): Promise<IFetchResult> {
+    const cachedUrl = cache.get<string>(this.generateCacheKey(params));
+    if (!cachedUrl) {
+      return { provider: this.name, error: "Video not found" };
+    }
+    return { provider: this.name, url: cachedUrl };
+  }
 }

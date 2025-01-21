@@ -20,6 +20,7 @@ const lastWatchedBaseSchema = S.object()
   .prop("episode", S.number().required())
   .prop("isWatched", Nullable(S.boolean()))
   .prop("tmdbId", S.number().required())
+  .prop("atSecond", S.number().required())
   .prop("userId", S.string().format("uuid").required());
 
 export const lastWatchedSchemaOutputType = S.object()
