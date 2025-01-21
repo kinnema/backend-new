@@ -47,6 +47,6 @@ model Favorite {
   user        User     @relation(onDelete: Cascade, references: [id], fields: [userId])
   createdAt   DateTime @default(now())
 
-  @@unique([userId, tmdbId])
+  @@unique([tmdbId])
   @@index([userId])
 }
