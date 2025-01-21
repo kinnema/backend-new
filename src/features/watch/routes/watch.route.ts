@@ -48,7 +48,7 @@ export default async function initializeWatchRoutes(app: FastifyInstance) {
           const url = await provider.fetch(_req.query, app);
           if (url) {
             reply.raw.write(JSON.stringify(url) + "\r\n");
-            // break;
+            break;
           }
         } catch (error) {
           console.error(`Error fetching from ${provider.name}:`, error);
