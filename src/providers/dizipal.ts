@@ -1,5 +1,6 @@
 import { IWatchGetParams } from "@src/features/watch/watch.schema";
 import * as cheerio from "cheerio";
+import { FastifyInstance } from "fastify";
 import fetch from "node-fetch";
 import { BaseProvider, IFetchResult, ProviderPriority } from "./base.provider";
 
@@ -13,7 +14,10 @@ export default class DizipalProvider extends BaseProvider {
     );
   }
 
-  async fetch(params: IWatchGetParams): Promise<IFetchResult> {
+  async fetch(
+    params: IWatchGetParams,
+    app: FastifyInstance
+  ): Promise<IFetchResult> {
     try {
       const headersObject = {
         "Accept-Language": "tr,en;q=0.9,en-GB;q=0.8,en-US;q=0.7",
@@ -51,11 +55,17 @@ export default class DizipalProvider extends BaseProvider {
           };
         }
       }
-      throw new Error("Video not found");
+
+      return {
+        provider: this.name,
+        error: "Video not found",
+      };
     } catch (error: unknown) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Unknown error occurred";
-      throw new Error(`DizipalProvider fetch error: ${errorMessage}`);
+      app.log.error(error);
+      return {
+        provider: this.name,
+        error: "Video not found",
+      };
     }
   }
 }

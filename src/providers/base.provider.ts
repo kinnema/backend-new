@@ -1,4 +1,5 @@
 import { IWatchGetParams } from "@src/features/watch/watch.schema";
+import { FastifyInstance } from "fastify";
 
 export enum ProviderPriority {
   LOW = 0,
@@ -19,7 +20,7 @@ export interface IProvider {
   providerUrl: string;
 
   // Method to fetch data - generic type T for flexibility
-  fetch(params: IWatchGetParams): Promise<IFetchResult>;
+  fetch(params: IWatchGetParams, app: FastifyInstance): Promise<IFetchResult>;
 }
 
 // Abstract class that implements the interface
@@ -31,5 +32,8 @@ export abstract class BaseProvider implements IProvider {
     public readonly providerUrl: string
   ) {}
 
-  abstract fetch(params: IWatchGetParams): Promise<IFetchResult>;
+  abstract fetch(
+    params: IWatchGetParams,
+    app: FastifyInstance
+  ): Promise<IFetchResult>;
 }
