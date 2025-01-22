@@ -26,16 +26,21 @@ model User {
 }
 
 model LastWatched {
-  id          String   @id @default(uuid())
-  name        String
-  poster_path String
-  season      Int
-  episode     Int
-  isWatched   Boolean? @default(false)
-  tmdbId      Int
-  userId      String
-  user        User     @relation(onDelete: Cascade, references: [id], fields: [userId])
-  atSecond    Int
+  id           String   @id @default(uuid())
+  name         String
+  poster_path  String
+  season       Int
+  episode      Int
+  isWatched    Boolean? @default(false)
+  tmdbId       Int
+  userId       String
+  user         User     @relation(onDelete: Cascade, references: [id], fields: [userId])
+  atSecond     Int
+  totalSeconds Int
+  episode_name String
+  network      Int
+
+  @@index([userId, tmdbId])
 }
 
 model Favorite {

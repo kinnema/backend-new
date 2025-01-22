@@ -33,6 +33,7 @@ export default function initializeLastWatchesRoutes(app: FastifyInstance) {
         params: S.object().prop("tmdbId", S.number().required()),
         response: {
           200: lastWatchedSchemaOutputType,
+          404: S.object().prop("error", S.string().required()),
         },
       },
       preHandler: [app.authenticate],

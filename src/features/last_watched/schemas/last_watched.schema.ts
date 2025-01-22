@@ -21,6 +21,9 @@ const lastWatchedBaseSchema = S.object()
   .prop("isWatched", Nullable(S.boolean()))
   .prop("tmdbId", S.number().required())
   .prop("atSecond", S.number().required())
+  .prop("totalSeconds", S.number().required())
+  .prop("episode_name", S.string().required())
+  .prop("network", S.number().required())
   .prop("userId", S.string().format("uuid").required());
 
 export const lastWatchedSchemaOutputType = S.object()
@@ -43,7 +46,10 @@ export const lastWatchedCreateSchemaInputType = S.object()
   .prop("season", S.number().required())
   .prop("episode", S.number().required())
   .prop("isWatched", Nullable(S.boolean()))
-  .prop("atSecond", S.number().required());
+  .prop("atSecond", S.number().required())
+  .prop("totalSeconds", S.number().required())
+  .prop("episode_name", S.string().required())
+  .prop("network", S.number().required());
 
 export const lastWatchedPatchSchemaOutputType = S.object()
   .id("#lastWatchedPatchSchemaOutputType")
@@ -56,10 +62,6 @@ export const lastWatchedPatchSchemaInputType = S.object()
   .prop("season", UndefinedOr(S.number()))
   .prop("episode", UndefinedOr(S.number()))
   .prop("isWatched", UndefinedOr(S.boolean()))
-  .prop("tmdbId", UndefinedOr(S.number()))
-  .prop("name", UndefinedOr(S.string().required()))
-  .prop("poster_path", UndefinedOr(S.string().required()))
-  .prop("userId", UndefinedOr(S.string().format("uuid")))
   .prop("atSecond", UndefinedOr(S.number()));
 
 // Define TypeScript types manually
