@@ -1,4 +1,5 @@
 import { lastWatchedCreateHandler } from "@src/controllers/last_watched/last_watched_create.handler";
+import { lastWatchedDeleteHandler } from "@src/controllers/last_watched/last_watched_delete.handler";
 import lastWatchedGetHandler from "@src/controllers/last_watched/last_watched_get.handler";
 import lastWatchedPatchHandler from "@src/controllers/last_watched/last_watched_patch.handler";
 import { lastWatchedRootHandler } from "@src/controllers/last_watched/last_watched_root.handler";
@@ -68,5 +69,19 @@ export default function initializeLastWatchesRoutes(app: FastifyInstance) {
       preHandler: [app.authenticate],
     },
     lastWatchedPatchHandler
+  );
+
+  app.delete(
+    "/:id",
+    {
+      schema: {
+        params: S.object().prop("id", S.string().format("uuid")),
+        response: {
+          204: S.null(),
+        },
+      },
+      preHandler: [app.authenticate],
+    },
+    lastWatchedDeleteHandler
   );
 }
