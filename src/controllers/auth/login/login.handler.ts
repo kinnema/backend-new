@@ -28,7 +28,7 @@ export async function loginHandler(
 
   reply.setCookie("access_token", token, {
     path: "/",
-    maxAge: 1000 * 60 * 60 * 24 * 7, // for a week
+    maxAge: 60 * 60 * 24 * 7, // for a week
     httpOnly: true,
     secure: true,
     sameSite: "none",
