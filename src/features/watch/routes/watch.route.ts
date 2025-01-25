@@ -36,7 +36,7 @@ export default async function initializeWatchRoutes(app: FastifyInstance) {
       reply: FastifyReply
     ) => {
       const providers = providerRegistry.getSortedProviders();
-
+      console.log(providers);
       reply.raw.writeHead(200, {
         "Content-Type": "application/x-ndjson",
         "Transfer-Encoding": "chunked",
@@ -47,10 +47,12 @@ export default async function initializeWatchRoutes(app: FastifyInstance) {
       for (const provider of providers) {
         try {
           const url = await provider.fetch(_req.query, app, cache);
-          if (url) {
+          if (url.url) {
             reply.raw.write(JSON.stringify(url) + "\r\n");
             break;
           }
+
+          reply.raw.write(JSON.stringify(url) + "\r\n");
         } catch (error) {
           console.error(`Error fetching from ${provider.name}:`, error);
         }
