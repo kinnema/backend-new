@@ -14,13 +14,28 @@ export async function lastWatchedCreateHandler(
     const isExists = await prismaClient.lastWatched.findFirst({
       where: {
         tmdbId: req.body.tmdbId,
-        episode: req.body.episode,
-        season: req.body.season,
       },
     });
 
     if (isExists) {
-      return isExists;
+      if (
+        isExists.episode === req.body.episode &&
+        isExists.season === req.body.season
+      ) {
+        return isExists;
+      }
+
+      const updated = await prismaClient.lastWatched.update({
+        where: {
+          id: isExists.id,
+        },
+        data: {
+          episode: req.body.episode,
+          season: req.body.season,
+        },
+      });
+
+      return updated;
     }
 
     const lastWatched = await prismaClient.lastWatched.create({

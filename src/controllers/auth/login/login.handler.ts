@@ -34,5 +34,7 @@ export async function loginHandler(
     sameSite: "none",
   });
 
+  req.log.info(token);
+
   return user;
 }

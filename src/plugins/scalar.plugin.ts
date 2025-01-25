@@ -9,6 +9,15 @@ export default fp(async function (fastify) {
         title: "Kinnema",
         version: "1.0.0",
       },
+      components: {
+        securitySchemes: {
+          Authorization: {
+            type: "apiKey",
+            name: "Authorization",
+            in: "header",
+          },
+        },
+      },
     },
   });
 
