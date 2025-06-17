@@ -38,7 +38,7 @@ export default class DizipalProvider extends BaseProvider {
         Referer: "https://dizipal953.com",
       };
 
-      const url = `${this.providerUrl}/dizi/${params.serie_name}/sezon-${params.season_number}/bolum-${params.episode_number}`;
+      const url = `${this.providerUrl}/dizi/${params.id}/sezon-${params.season_number}/bolum-${params.episode_number}`;
 
       const response = await fetch(url, {
         headers: headersObject,

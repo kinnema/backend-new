@@ -26,7 +26,7 @@ export default class DizipalBrowserProvider extends BaseProvider {
         return cachedUrl;
       }
 
-      const url = `${this.providerUrl}/dizi/${params.serie_name}/sezon-${params.season_number}/bolum-${params.episode_number}`;
+      const url = `${this.providerUrl}/dizi/${params.id}/sezon-${params.season_number}/bolum-${params.episode_number}`;
 
       const response = await fetch(process.env.PROXY_URL!, {
         method: "POST",

@@ -35,7 +35,7 @@ export abstract class BaseProvider implements IProvider {
     public readonly priority: ProviderPriority,
     public isEnabled: boolean,
     public readonly providerUrl: string
-  ) {}
+  ) { }
 
   abstract fetch(
     params: IWatchGetParams,
@@ -44,7 +44,7 @@ export abstract class BaseProvider implements IProvider {
   ): Promise<IFetchResult>;
 
   protected generateCacheKey(params: IWatchGetParams): string {
-    return `${this.name}-${params.serie_name}-${params.season_number}-${params.episode_number}`;
+    return `${this.name}-${params.id}-${params.season_number}-${params.episode_number}`;
   }
 
   protected async fetchFromCache(

@@ -17,7 +17,7 @@ export const WatchProvidersSchema = S.object()
   .required();
 
 export const WatchQueryParamsSchema = S.object()
-  .prop("serie_name", S.string())
+  .prop("id", S.string())
   .prop("season_number", S.number())
   .prop("episode_number", S.number());
 
@@ -26,7 +26,7 @@ export function addWatchSchemas(app: FastifyInstance) {
 }
 
 export interface IWatchGetParams {
-  serie_name: string;
+  id: string;
   season_number: number;
   episode_number: number;
 }
